@@ -4,65 +4,51 @@ namespace App\AdventSolutions\Year2015\Day2;
 
 class Solution2015Day2
 {
-    private $totalWrappingPaper = 0;
-
-    private $totalRibbon = 0;
-
     public function solvePart1($input)
     {
-        // Implement the logic for solving part 1 here
-        foreach ($input as $dimensions) {
-            // split dimensions into length, width, height
-            $dimensions = $this->getDimensions($dimensions);
+        $totalWrappingPaper = 0;
 
-            $this->totalWrappingPaper += $this->calculateWrappingPaper($dimensions[0], $dimensions[1], $dimensions[2]);
+        foreach ($input as $dimensions) {
+            [$length, $width, $height] = explode('x', $dimensions);
+            $totalWrappingPaper += $this->calculateWrappingPaper($length, $width, $height);
         }
 
-        return "Total wrapping paper: <info>" . $this->totalWrappingPaper . "</info>";
+        return "Total wrapping paper: <info>$totalWrappingPaper</info>";
     }
 
     public function solvePart2($input)
     {
-        // Implement the logic for solving part 2 here
+        $totalRibbon = 0;
+
         foreach ($input as $dimensions) {
-            // split dimensions into length, width, height
-            $dimensions = $this->getDimensions($dimensions);
-
-            $ordered = $this->order($dimensions);
-
-            $temp = 2 * ($ordered[0] + $ordered[1]);
-
-            $this->totalRibbon += $temp + ($ordered[0] * $ordered[1] * $ordered[2]);
+            [$length, $width, $height] = explode('x', $dimensions);
+            $totalRibbon += $this->calculateRibbon($length, $width, $height);
         }
 
-        return "Total ribbon: <info>" . $this->totalRibbon . "</info>";
+        return "Total ribbon: <info>$totalRibbon</info>";
     }
 
-    private function getDimensions(string $input): array
+    private function calculateWrappingPaper($length, $width, $height)
     {
-        return explode('x', $input);
-    }
-
-    private function order(array $array): array
-    {
-        sort($array);
-
-        return $array;
-    }
-
-    private function calculateWrappingPaper(int $length, int $width, int $height): int
-    {
-        // Implement the logic for calculating the wrapping paper here
         $side1 = $length * $width;
         $side2 = $width * $height;
         $side3 = $height * $length;
 
-        $result = 2 * ($side1 + $side2 + $side3);
+        $surfaceArea = 2 * ($side1 + $side2 + $side3);
 
-        // get smallest of the three sides
-        $smallest = $this->order([$side1, $side2, $side3])[0];
+        $smallestSide = min($side1, $side2, $side3);
 
-        return $result + $smallest;
+        return $surfaceArea + $smallestSide;
     }
 
+    private function calculateRibbon($length, $width, $height)
+    {
+        $sides = [$length, $width, $height];
+        sort($sides);
+
+        $smallestPerimeter = 2 * ($sides[0] + $sides[1]);
+        $volume = $length * $width * $height;
+
+        return $smallestPerimeter + $volume;
+    }
 }
