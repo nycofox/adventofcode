@@ -42,8 +42,6 @@ In this example, if you were to follow the strategy guide, you would get a total
 
 What would your total score be if everything goes exactly according to your strategy guide?
 
-Your puzzle answer was 11449.
-
 #### --- Part Two ---
 
 The Elf finishes helping with the tent and sneaks back over to you. "Anyway, the second column says how the round needs
