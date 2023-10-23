@@ -77,14 +77,14 @@ use App\AdventSolutions\AbstractSolution;
 
 class Solution{$year}Day{$day} extends AbstractSolution
 {
-    public function solvePart1(\$input)
+    public function solvePart1(\$input): string
     {
         // Implement the logic for solving part 1 here
         
         return "Part 1 not yet implemented!";
     }
 
-    public function solvePart2(\$input)
+    public function solvePart2(\$input): string
     {
         // Implement the logic for solving part 2 here
         
