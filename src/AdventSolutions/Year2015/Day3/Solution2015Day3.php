@@ -2,11 +2,13 @@
 
 namespace App\AdventSolutions\Year2015\Day3;
 
-class Solution2015Day3
+use App\AdventSolutions\AbstractSolution;
+
+class Solution2015Day3 extends AbstractSolution
 {
     private array $houses = [];
 
-    public function solvePart1($input)
+    public function solvePart1($input): string
     {
         $directions = str_split($input[0]);
         $x = 0;
@@ -23,7 +25,7 @@ class Solution2015Day3
         return "Santa visited " . count($this->houses) . " houses at least once";
     }
 
-    public function solvePart2($input)
+    public function solvePart2($input): string
     {
         $this->houses = [];
         $directions = str_split($input[0]);

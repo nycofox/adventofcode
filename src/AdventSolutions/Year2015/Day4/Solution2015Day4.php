@@ -2,14 +2,16 @@
 
 namespace App\AdventSolutions\Year2015\Day4;
 
-class Solution2015Day4
+use App\AdventSolutions\AbstractSolution;
+
+class Solution2015Day4 extends AbstractSolution
 {
-    public function solvePart1($input)
+    public function solvePart1($input): string
     {
         return $this->findHashWithPrefix($input, '00000');
     }
 
-    public function solvePart2($input)
+    public function solvePart2($input): string
     {
         return $this->findHashWithPrefix($input, '000000');
     }

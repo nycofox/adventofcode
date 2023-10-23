@@ -2,10 +2,12 @@
 
 namespace App\AdventSolutions\Year2015\Day5;
 
-class Solution2015Day5
+use App\AdventSolutions\AbstractSolution;
+
+class Solution2015Day5 extends AbstractSolution
 {
 
-    public function solvePart1($input)
+    public function solvePart1($input): string
     {
         $niceStrings = 0;
 
@@ -20,7 +22,7 @@ class Solution2015Day5
         return "There are $niceStrings nice strings.";
     }
 
-    public function solvePart2($input)
+    public function solvePart2($input): string
     {
         $niceStrings = 0;
 

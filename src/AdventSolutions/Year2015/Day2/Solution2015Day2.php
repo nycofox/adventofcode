@@ -2,9 +2,11 @@
 
 namespace App\AdventSolutions\Year2015\Day2;
 
-class Solution2015Day2
+use App\AdventSolutions\AbstractSolution;
+
+class Solution2015Day2 extends AbstractSolution
 {
-    public function solvePart1($input)
+    public function solvePart1($input): string
     {
         $totalWrappingPaper = 0;
 
@@ -16,7 +18,7 @@ class Solution2015Day2
         return "Total wrapping paper: <info>$totalWrappingPaper</info>";
     }
 
-    public function solvePart2($input)
+    public function solvePart2($input): string
     {
         $totalRibbon = 0;
 

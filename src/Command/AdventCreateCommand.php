@@ -73,7 +73,9 @@ EOF;
 
 namespace App\AdventSolutions\Year$year\Day$day;
 
-class Solution{$year}Day{$day}
+use App\AdventSolutions\AbstractSolution;
+
+class Solution{$year}Day{$day} extends AbstractSolution
 {
     public function solvePart1(\$input)
     {
