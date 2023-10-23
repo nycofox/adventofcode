@@ -38,7 +38,7 @@ class Solution2022Day2 extends AbstractSolution
             $score_1 += self::SCORES_PART_ONE[$line];
         }
 
-        return $score_1;
+        return "Total score: <info>$score_1</info>";
     }
 
     public function solvePart2(array $input): string
@@ -49,7 +49,7 @@ class Solution2022Day2 extends AbstractSolution
             $score_2 += self::SCORES_PART_TWO[$line];
         }
 
-        return $score_2;
+        return "Total score: <info>$score_2</info>";
     }
 
 
