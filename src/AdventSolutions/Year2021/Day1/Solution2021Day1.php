@@ -10,8 +10,8 @@ class Solution2021Day1 extends AbstractSolution
     {
         $increases = 0;
 
-        for ($i = 0; $i < count($input); $i++) {
-            if ($i > 0 && $input[$i] > $input[$i - 1]) {
+        for ($i = 1; $i < count($input); $i++) {
+            if ($input[$i] > $input[$i - 1]) {
                 $increases++;
             }
         }
