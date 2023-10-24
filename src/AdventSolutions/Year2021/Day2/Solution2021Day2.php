@@ -66,13 +66,13 @@ class Solution2021Day2 extends AbstractSolution
         return "The answer is: <info>$answer</info>";
     }
 
-    private function getDirection($input)
+    private function getDirection($input): string
     {
         return explode(" ", $input)[0];
 
     }
 
-    private function getDistance($input)
+    private function getDistance($input): int
     {
         return explode(" ", $input)[1];
     }
