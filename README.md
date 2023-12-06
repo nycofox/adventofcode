@@ -29,8 +29,8 @@ To get started with this project, follow these steps:
 4. To set up template files for a new daily solution, execute the command below. You need to specify both the year and
    the day as arguments. Executing this command accomplishes two things:
 
-- It creates a new directory uniquely for the specified year and day.
-- It generates template files for both the solution and input files within this new directory.
+   1. It creates a new directory uniquely for the specified year and day.
+   2. It generates template files for both the solution and input files within this new directory.
 
    ```shell
    ./advent-create 2023 1
