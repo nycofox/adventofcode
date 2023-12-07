@@ -15,16 +15,17 @@ class Solution2023Day3 extends AbstractSolution
 
         $numbers = $this->findNumbers();
 
-        $numbers_with_symbols = 0;
+        $sum_numbers_with_adjacent_symbols = 0;
 
         foreach ($numbers as $number) {
             if ($this->hasAdjacentSymbol($number)) {
-                $numbers_with_symbols += $number['number'];
-                print_r('Fant symbol rundt ' . $number['number'] . ' på linje ' . $number['line'] . '. Delsum: ' . $numbers_with_symbols . PHP_EOL);
+                $sum_numbers_with_adjacent_symbols += (int)$number['number'];
+                print_r('Found number ' . $number['number'] . ' on line ' . $number['line']+1 .
+                    ' with adjacent symbol. Part sum: ' . $sum_numbers_with_adjacent_symbols . PHP_EOL);
             }
         }
 
-        return "Sum of all numbers with adjacent symbol: <info>$numbers_with_symbols</info>";
+        return "Sum of all numbers with adjacent symbol: <info>$sum_numbers_with_adjacent_symbols</info>";
     }
 
     public function solvePart2($input): string
@@ -52,7 +53,6 @@ class Solution2023Day3 extends AbstractSolution
                         $numbers[] = [
                             'number' => $number,
                             'start_position' => $start_position,
-                            'end_position' => $position - 1,
                             'line' => $index,
                         ];
                     }
@@ -88,43 +88,34 @@ class Solution2023Day3 extends AbstractSolution
 
     private function hasAdjacentSymbol($number): bool
     {
-        $start_position = $number['start_position'];
-        $end_position = $number['end_position'];
+        $start_position = $number['start_position'] - 1;
+        $end_position = strlen($number['number']) + $start_position + 1;
         $line = $number['line'];
 
-//        print_r($number['number'] . ' på linje ' . $line . ' fra ' . $start_position . ' til ' . $end_position . PHP_EOL);
-
         // check top
-        for ($position = $start_position - 1; $position <= $end_position + 1; $position++) {
-//            print_r('Sjekker over på linje ' . $line - 1 . ' posisjon ' . $position . PHP_EOL);
+        for ($position = $start_position; $position <= $end_position; $position++) {
             if ($this->isSymbol($line - 1, $position)) {
-//                print_r('Fant symbol over' . PHP_EOL);
                 return true;
             }
         }
 
         // check bottom
-        for ($position = $start_position - 1; $position <= $end_position + 1; $position++) {
-//            print_r('Sjekker under på linje ' . $line + 1 . ' posisjon ' . $position . PHP_EOL);
+        for ($position = $start_position; $position <= $end_position; $position++) {
             if ($this->isSymbol($line + 1, $position)) {
-//                print_r('Fant symbol under' . PHP_EOL);
                 return true;
             }
         }
 
         // check left
-        if ($this->isSymbol($line, $start_position - 1)) {
-//            print_r('Fant symbol til venstre' . PHP_EOL);
+        if ($this->isSymbol($line, $start_position)) {
             return true;
         }
 
         // check right
-        if ($this->isSymbol($line, $end_position + 1)) {
-//            print_r('Fant symbol til høyre' . PHP_EOL);
+        if ($this->isSymbol($line, $end_position)) {
             return true;
         }
 
-//        print_r('Fant ikke symbol rundt' . PHP_EOL);
         return false;
     }
 }
