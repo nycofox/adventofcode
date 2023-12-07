@@ -28,7 +28,9 @@ class AdventCommand extends Command
             ->setDescription('Solve Advent of Code puzzles in PHP.')
             ->setHelp('This command solves Advent of Code puzzles.')
             ->addArgument('year', InputArgument::REQUIRED, 'The year for the Advent of Code puzzle.')
-            ->addArgument('day', InputArgument::REQUIRED, 'The day for the Advent of Code puzzle.');
+            ->addArgument('day', InputArgument::REQUIRED, 'The day for the Advent of Code puzzle.')
+            ->addOption('test', 't', InputOption::VALUE_NONE, 'Run the test input for the solution.')
+        ->addOption('debug', 'd', InputOption::VALUE_NONE, 'Run the solution with debug output enabled.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -50,7 +52,8 @@ class AdventCommand extends Command
         $solution = new $solutionClassName();
 
         // Read the input data from a file (input.txt)
-        $inputFilePath = __DIR__ . '/../AdventSolutions/Year' . $year . '/Day' . $day . '/input.txt';
+        $inputfilename = $input->getOption('test') ? 'input_test.txt' : 'input.txt';
+        $inputFilePath = __DIR__ . '/../AdventSolutions/Year' . $year . '/Day' . $day . '/' . $inputfilename;
         $input = file($inputFilePath, FILE_IGNORE_NEW_LINES);
 
         // Call the solvePart1 and solvePart2 methods
@@ -59,6 +62,9 @@ class AdventCommand extends Command
 
         // Display the results
         $output->writeln(["", "<comment>Advent of Code Results for day $day in $year:</comment>"]);
+        if($inputfilename == 'input_test.txt') {
+            $output->writeln("<error>Test input used.</error>");
+        }
         $output->writeln("<info>Part 1:</info> $resultPart1");
         $output->writeln("<info>Part 2:</info> $resultPart2");
 
