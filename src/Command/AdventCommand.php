@@ -30,13 +30,14 @@ class AdventCommand extends Command
             ->addArgument('year', InputArgument::REQUIRED, 'The year for the Advent of Code puzzle.')
             ->addArgument('day', InputArgument::REQUIRED, 'The day for the Advent of Code puzzle.')
             ->addOption('test', 't', InputOption::VALUE_NONE, 'Run the test input for the solution.')
-        ->addOption('debug', 'd', InputOption::VALUE_NONE, 'Run the solution with debug output enabled.');
+            ->addOption('debug', 'd', InputOption::VALUE_NONE, 'Run the solution with debug output enabled.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $year = $input->getArgument('year');
         $day = $input->getArgument('day');
+        $debug = $input->getOption('debug');
 
         // Construct the class name for the solution file based on the provided year and day
         $solutionClassName = 'App\\AdventSolutions\\Year' . $year . '\\Day' . $day . '\\Solution' . $year . 'Day' . $day;
@@ -48,22 +49,26 @@ class AdventCommand extends Command
             return Command::FAILURE;
         }
 
+        // Read the input data from a file (input.txt)
+        $inputFileName = $input->getOption('test') ? 'input_test.txt' : 'input.txt';
+        $inputFilePath = __DIR__ . '/../AdventSolutions/Year' . $year . '/Day' . $day . '/' . $inputFileName;
+        $inputFile = file($inputFilePath, FILE_IGNORE_NEW_LINES);
+
+
         // Instantiate the solution class
         $solution = new $solutionClassName();
 
-        // Read the input data from a file (input.txt)
-        $inputfilename = $input->getOption('test') ? 'input_test.txt' : 'input.txt';
-        $inputFilePath = __DIR__ . '/../AdventSolutions/Year' . $year . '/Day' . $day . '/' . $inputfilename;
-        $input = file($inputFilePath, FILE_IGNORE_NEW_LINES);
-
         // Call the solvePart1 and solvePart2 methods
-        $resultPart1 = $solution->solvePart1($input);
-        $resultPart2 = $solution->solvePart2($input);
+        $resultPart1 = $solution->solvePart1($inputFile);
+        $resultPart2 = $solution->solvePart2($inputFile);
 
         // Display the results
         $output->writeln(["", "<comment>Advent of Code Results for day $day in $year:</comment>"]);
-        if($inputfilename == 'input_test.txt') {
-            $output->writeln("<error>Test input used.</error>");
+        if ($inputFileName == 'input_test.txt') {
+            $output->writeln("<bg=cyan;options=bold>Test input used.</>");
+        }
+        if ($debug) {
+            $output->writeln("<bg=cyan;options=bold>Debug output enabled.</>");
         }
         $output->writeln("<info>Part 1:</info> $resultPart1");
         $output->writeln("<info>Part 2:</info> $resultPart2");
