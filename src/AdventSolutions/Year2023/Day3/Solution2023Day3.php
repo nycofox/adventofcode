@@ -55,12 +55,24 @@ class Solution2023Day3 extends AbstractSolution
                             'start_position' => $start_position,
                             'line' => $index,
                         ];
+                        $number = '';
+                        $start_position = null;
                     }
-
-                    $number = '';
-                    $start_position = null;
                 }
             }
+
+            // Check if the last character in the line is numeric
+            if ($start_position !== null) {
+                $numbers[] = [
+                    'number' => $number,
+                    'start_position' => $start_position,
+                    'line' => $index,
+                ];
+            }
+
+            // Reset for the next line
+            $number = '';
+            $start_position = null;
         }
 
         return $numbers;
