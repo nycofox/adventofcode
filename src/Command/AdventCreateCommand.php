@@ -67,6 +67,9 @@ EOF;
         // Create input.txt
         touch($challengeDirectory . '/input.txt');
 
+        // Create input_text.txt
+        touch($challengeDirectory . '/input_test.txt');
+
         // Create Solution file
         $solutionContent = <<<EOF
 <?php
