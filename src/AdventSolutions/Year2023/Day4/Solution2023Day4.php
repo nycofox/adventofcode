@@ -44,10 +44,6 @@ class Solution2023Day4 extends AbstractSolution
                 $card_count[$card_num + $i + 1] += $number_of_card;
             }
 
-//            if ($winning_numbers > 0) {
-//                $card_count[$card_num + 1] += $winning_numbers * $number_of_card;
-//            }
-
             $card_num++;
         }
 
