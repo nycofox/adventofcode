@@ -19,14 +19,20 @@ To get started with this project, follow these steps:
    composer install
    ```
 
-3. Run the advent command to execute the solutions for the Advent of Code challenges. You must provide the year and day
+3. Make sure the executable files are set to be executable:
+
+   ```shell
+   chmod +x advent advent-create
+   ```
+
+4. Run the advent command to execute the solutions for the Advent of Code challenges. You must provide the year and day
    as arguments.
 
    ```shell
    ./advent 2023 1
    ```
 
-4. To set up template files for a new daily solution, execute the command below. You need to specify both the year and
+5. To set up template files for a new daily solution, execute the command below. You need to specify both the year and
    the day as arguments. Executing this command accomplishes two things:
 
    1. It creates a new directory uniquely for the specified year and day.
