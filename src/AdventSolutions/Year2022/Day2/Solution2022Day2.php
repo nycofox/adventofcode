@@ -32,24 +32,24 @@ class Solution2022Day2 extends AbstractSolution
 
     public function solvePart1(array $input): string
     {
-        $score_1 = 0;
+        $score = 0;
 
         foreach ($input as $line) {
-            $score_1 += self::SCORES_PART_ONE[$line];
+            $score += self::SCORES_PART_ONE[$line];
         }
 
-        return "Total score: <info>$score_1</info>";
+        return "Total score: <info>$score</info>";
     }
 
     public function solvePart2(array $input): string
     {
-        $score_2 = 0;
+        $score = 0;
 
         foreach ($input as $line) {
-            $score_2 += self::SCORES_PART_TWO[$line];
+            $score += self::SCORES_PART_TWO[$line];
         }
 
-        return "Total score: <info>$score_2</info>";
+        return "Total score: <info>$score</info>";
     }
 
 

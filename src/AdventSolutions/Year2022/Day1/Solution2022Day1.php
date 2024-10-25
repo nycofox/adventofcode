@@ -9,32 +9,32 @@ class Solution2022Day1 extends AbstractSolution
     public function solvePart1(array $input): string
     {
         // Implement the logic for solving part 1 of the puzzle here
-        $elves = $this->elves($input);
+        $max_calories = max($this->elves($input));
 
-        return "The elf with the most calories has a total of <info>" . max($elves) . "</info> calories";
+        return "The elf with the most calories has a total of <info>$max_calories</info> calories";
     }
 
     public function solvePart2(array $input): string
     {
-        // Implement the logic for solving part 2 of the puzzle here
         $elves = $this->elves($input);
         $sorted = array_slice($elves, -3, 3);
+        $sum = array_sum($sorted);
 
-        return "The three elves with the most calories have a total of <info>" . array_sum($sorted) . "</info> calories";
+        return "The three elves with the most calories have a total of <info>$sum</info> calories";
     }
 
     private function elves(array $input): array
     {
         $elves = [];
-        $rowdata = [];
+        $row_data = [];
 
         foreach ($input as $row) {
             if (empty($row)) {
-                $elves[] = array_sum($rowdata);
-                $rowdata = [];
+                $elves[] = array_sum($row_data);
+                $row_data = [];
             }
 
-            $rowdata[] = (int)$row;
+            $row_data[] = (int)$row;
         }
 
         natsort($elves);
