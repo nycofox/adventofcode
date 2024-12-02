@@ -32,18 +32,13 @@ class Solution2024Day2 extends AbstractSolution
         return "Number of safe reports (with dampeners): <info>$safeReports</info>";
     }
 
-    private function getLevels($line)
+    private function getLevels($line): array
     {
         return explode(" ", $line);
     }
 
     private function isSafe($levels, $ignoreLevels = 0): bool
     {
-        if (count($levels) < 2) {
-            return true; // A single level or empty array is trivially safe
-        }
-
-        // Helper function to validate the sequence
         $isValid = function ($levels) {
             return $this->isValid($levels);
         };
