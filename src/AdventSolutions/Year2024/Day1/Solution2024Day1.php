@@ -21,9 +21,17 @@ class Solution2024Day1 extends AbstractSolution
 
     public function solvePart2($input, $debug = false): string
     {
-        // Implement the logic for solving part 2 here
+        $lists = $this->sortInput($input);
+
+        $result = 0;
+
+        foreach ($lists[0] as $number) {
+            $numberCount = array_count_values($lists[1])[$number] ?? 0;
+
+            $result += $number * $numberCount;
+        }
         
-        return "Part 2 not yet implemented!";
+        return "The similiarity score is <info>$result</info>";
     }
 
     private function sortInput($input): array
@@ -33,7 +41,7 @@ class Solution2024Day1 extends AbstractSolution
 
         foreach ($input as $line) {
             $numbers = preg_split('/\s+/', trim($line));
-            $column1[] = (int) $numbers[0]; // Convert to integers
+            $column1[] = (int) $numbers[0];
             $column2[] = (int) $numbers[1];
         }
 
