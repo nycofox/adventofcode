@@ -6,47 +6,48 @@ use App\AdventSolutions\AbstractSolution;
 
 class Solution2016Day5 extends AbstractSolution
 {
+    private const HASH_PREFIX = '00000';
+    private const PASSWORD_LENGTH = 8;
+
     public function solvePart1($input, $debug = false): string
     {
         $string = trim($input[0]);
         $password = '';
 
-        for ($i = 0; $i < PHP_INT_MAX; $i++) {
-            $hash = md5($string . $i);
+        $this->generatePassword($string, function ($hash, &$password) {
+            $password .= $hash[5];
+            return strlen($password) === self::PASSWORD_LENGTH;
+        }, $password);
 
-            if (str_starts_with($hash, '00000')) {
-                $password .= $hash[5];
-
-                if (strlen($password) === 8) {
-                    break;
-                }
-            }
-        }
-        
         return "The password is: <info>$password</info>";
     }
 
     public function solvePart2($input, $debug = false): string
     {
         $string = trim($input[0]);
-        $password = array_fill(0, 8, null);
+        $password = array_fill(0, self::PASSWORD_LENGTH, null);
 
+        $this->generatePassword($string, function ($hash, &$password) {
+            $position = $hash[5];
+            if (is_numeric($position) && $position < self::PASSWORD_LENGTH && $password[$position] === null) {
+                $password[$position] = $hash[6];
+            }
+            return !in_array(null, $password, true);
+        }, $password);
+
+        return "The password is: <info>" . implode('', $password) . "</info>";
+    }
+
+    private function generatePassword(string $string, callable $callback, &$password): void
+    {
         for ($i = 0; $i < PHP_INT_MAX; $i++) {
             $hash = md5($string . $i);
 
-            if (str_starts_with($hash, '00000')) {
-                $position = $hash[5];
-
-                if (is_numeric($position) && $position < 8 && $password[$position] === null) {
-                    $password[$position] = $hash[6];
-
-                    if (!in_array(null, $password)) {
-                        break;
-                    }
+            if (str_starts_with($hash, self::HASH_PREFIX)) {
+                if ($callback($hash, $password)) {
+                    break;
                 }
             }
         }
-
-        return "The password is: <info>" . implode('', $password) . "</info>";
     }
 }
