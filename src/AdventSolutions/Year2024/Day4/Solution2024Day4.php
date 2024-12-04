@@ -8,15 +8,28 @@ class Solution2024Day4 extends AbstractSolution
 {
     public function solvePart1($input, $debug = false): string
     {
-        $grid = array_map('str_split', $input); // Convert each line into an array of characters
+        $grid = $this->parseGrid($input);
         $word = "XMAS";
-        $wordLength = strlen($word);
-        $occurrences = 0;
+        $occurrences = $this->countWordOccurrences($grid, $word);
 
-        $rows = count($grid);
-        $cols = count($grid[0]); // Assuming all rows are of equal length
+        return "The total occurrences of XMAS are: <info>$occurrences</info>";
+    }
 
-        // Define all directions as [row_offset, col_offset]
+    public function solvePart2($input, $debug = false): string
+    {
+        $grid = $this->parseGrid($input);
+        $occurrences = $this->countXMasOccurrences($grid);
+
+        return "The total occurrences of X-MAS are: <info>$occurrences</info>";
+    }
+
+    private function parseGrid(array $input): array
+    {
+        return array_map('str_split', $input);
+    }
+
+    private function countWordOccurrences(array $grid, string $word): int
+    {
         $directions = [
             [0, 1],   // Right
             [0, -1],  // Left
@@ -28,10 +41,13 @@ class Solution2024Day4 extends AbstractSolution
             [-1, 1],  // Diagonal up-right
         ];
 
-        // Iterate through each position in the grid
+        $rows = count($grid);
+        $cols = count($grid[0]);
+        $wordLength = strlen($word);
+        $occurrences = 0;
+
         for ($r = 0; $r < $rows; $r++) {
             for ($c = 0; $c < $cols; $c++) {
-                // Check all directions
                 foreach ($directions as [$rowOffset, $colOffset]) {
                     if ($this->checkWord($grid, $r, $c, $word, $rowOffset, $colOffset, $wordLength, $rows, $cols)) {
                         $occurrences++;
@@ -40,70 +56,60 @@ class Solution2024Day4 extends AbstractSolution
             }
         }
 
-        return "The total occurrences of XMAS are: <info>$occurrences</info>";
+        return $occurrences;
     }
 
-    public function solvePart2($input, $debug = false): string
+    private function countXMasOccurrences(array $grid): int
     {
-        $grid = array_map('str_split', $input); // Convert each line into an array of characters
+        $rows = count($grid);
+        $cols = count($grid[0]);
         $occurrences = 0;
 
-        $rows = count($grid);
-        $cols = count($grid[0]); // Assuming all rows are of equal length
-
-        // Iterate through each position in the grid
         for ($r = 1; $r < $rows - 1; $r++) {
             for ($c = 1; $c < $cols - 1; $c++) {
-                // Check if the position can be the center of an X-MAS
                 if ($grid[$r][$c] === 'A' && $this->isXMas($grid, $r, $c)) {
                     $occurrences++;
                 }
             }
         }
 
-        return "The total occurrences of X-MAS are: <info>$occurrences</info>";
+        return $occurrences;
     }
 
-    private function checkWord($grid, $startRow, $startCol, $word, $rowOffset, $colOffset, $wordLength, $rows, $cols): bool
+    private function checkWord(array $grid, int $startRow, int $startCol, string $word, int $rowOffset, int $colOffset, int $wordLength, int $rows, int $cols): bool
     {
         for ($i = 0; $i < $wordLength; $i++) {
             $r = $startRow + $i * $rowOffset;
             $c = $startCol + $i * $colOffset;
 
-            // Check if the position is out of bounds
-            if ($r < 0 || $r >= $rows || $c < 0 || $c >= $cols) {
-                return false;
-            }
-
-            // Check if the character matches
-            if ($grid[$r][$c] !== $word[$i]) {
+            if ($r < 0 || $r >= $rows || $c < 0 || $c >= $cols || $grid[$r][$c] !== $word[$i]) {
                 return false;
             }
         }
 
-        return true; // All characters matched
+        return true;
     }
 
-    private function isXMas($grid, $centerRow, $centerCol): bool
+    private function isXMas(array $grid, int $centerRow, int $centerCol): bool
     {
-        // Check the four surrounding positions
-        $topLeft = [$centerRow - 1, $centerCol - 1];
-        $topRight = [$centerRow - 1, $centerCol + 1];
-        $bottomLeft = [$centerRow + 1, $centerCol - 1];
-        $bottomRight = [$centerRow + 1, $centerCol + 1];
+        $positions = [
+            'topLeft' => [$centerRow - 1, $centerCol - 1],
+            'topRight' => [$centerRow - 1, $centerCol + 1],
+            'bottomLeft' => [$centerRow + 1, $centerCol - 1],
+            'bottomRight' => [$centerRow + 1, $centerCol + 1],
+        ];
 
-        // Extract characters
-        $topLeftChar = $grid[$topLeft[0]][$topLeft[1]] ?? null;
-        $topRightChar = $grid[$topRight[0]][$topRight[1]] ?? null;
-        $bottomLeftChar = $grid[$bottomLeft[0]][$bottomLeft[1]] ?? null;
-        $bottomRightChar = $grid[$bottomRight[0]][$bottomRight[1]] ?? null;
+        $chars = [
+            'topLeft' => $grid[$positions['topLeft'][0]][$positions['topLeft'][1]] ?? null,
+            'topRight' => $grid[$positions['topRight'][0]][$positions['topRight'][1]] ?? null,
+            'bottomLeft' => $grid[$positions['bottomLeft'][0]][$positions['bottomLeft'][1]] ?? null,
+            'bottomRight' => $grid[$positions['bottomRight'][0]][$positions['bottomRight'][1]] ?? null,
+        ];
 
-        // Define valid patterns for "MAS" (forwards and backwards)
         $validMas = ['MAS', 'SAM'];
 
-        // Check if the diagonals form an X-MAS
-        $diagonal1 = $topLeftChar . $grid[$centerRow][$centerCol] . $bottomRightChar;
-        $diagonal2 = $bottomLeftChar . $grid[$centerRow][$centerCol] . $topRightChar;
+        $diagonal1 = $chars['topLeft'] . $grid[$centerRow][$centerCol] . $chars['bottomRight'];
+        $diagonal2 = $chars['bottomLeft'] . $grid[$centerRow][$centerCol] . $chars['topRight'];
 
         return in_array($diagonal1, $validMas) && in_array($diagonal2, $validMas);
     }
